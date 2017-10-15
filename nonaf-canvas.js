@@ -61,29 +61,31 @@ function pointNormalizer(opts) {
 
    function normalizePoint(x, y) {
       var canvas = opts.canvas;
+      var canvasWidth = opts.canvasWidth;
+      var canvasHeight = opts.canvasHeight;
       var viewBox = opts.viewBox;
       var zoomFactor = opts.zoomFactor;
       var left = opts.left;
       var top = opts.top;
       var rotation = opts.rotation;
       var bounds = canvas.getBoundingClientRect();
-      var ratio = viewBox.width/canvas.width;
+      var ratio = viewBox.width/canvasWidth;
       var offsetX = x - bounds.left;
       var offsetY = y - bounds.top;
       var oldX = offsetX, oldY = offsetY;
       if (rotation == 1 || rotation == 3) {
-         ratio = viewBox.width/canvas.height;
+         ratio = viewBox.width/canvasHeight;
       }
       if (rotation == 1) {
-         offsetY = canvas.width * zoomFactor - offsetX + left;
+         offsetY = canvasWidth * zoomFactor - offsetX + left;
          offsetX = oldY - top;
       }
       else if (rotation == 2) {
-         offsetX = canvas.width * zoomFactor - offsetX + left;
-         offsetY = canvas.height * zoomFactor - offsetY + top;
+         offsetX = canvasWidth * zoomFactor - offsetX + left;
+         offsetY = canvasHeight * zoomFactor - offsetY + top;
       }
       else if (rotation == 3) {
-         offsetX = canvas.height * zoomFactor - offsetY + top;
+         offsetX = canvasHeight * zoomFactor - offsetY + top;
          offsetY = oldX - left;
       }
       else {
@@ -94,13 +96,14 @@ function pointNormalizer(opts) {
    }
 
    function denormalizePoint(x, y) {
-      var canvas = opts.canvas;
+      var canvasWidth = opts.canvasWidth;
+      var canvasHeight = opts.canvasHeight;
       var size = opts.size;
       var zoomFactor = opts.zoomFactor;
       var rotation = opts.rotation;
-      var ratio = canvas.width/size.width;
+      var ratio = canvasWidth/size.width;
       if (rotation == 1 || rotation == 3) {
-         ratio = canvas.height/size.width;
+         ratio = canvasHeight/size.width;
       }
       return [x * ratio * zoomFactor, y * ratio * zoomFactor];
    }
